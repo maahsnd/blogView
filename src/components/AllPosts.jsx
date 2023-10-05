@@ -24,6 +24,9 @@ export default function AllPosts() {
 
   return (
     <div>
+      <header>
+        <a href="/user-auth">User Auth</a>
+      </header>
       <h1>Posts</h1>
       {posts.length > 0 ? (
         posts.map((post) => (
