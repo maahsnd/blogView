@@ -29,7 +29,7 @@ export default function AllPosts() {
         posts.map((post) => (
           <div key={post._id}>
             <h3>
-              <a href={post.url}>{post.title}</a>
+              <a href={'posts/' + post._id}>{post.title}</a>
             </h3>
             <h4>By: {post.user.user_name}</h4>
             <p>{post.formatted_date}</p>
