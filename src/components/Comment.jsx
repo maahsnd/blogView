@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 function AddComment() {
   const [commentText, setCommentText] = useState('');
-  const user = localStorage.getItem('user');
+  const postId = useParams().postId;
+  const localData = JSON.parse(localStorage.getItem('user'));
   const handleSubmit = (e) => {
     e.preventDefault();
     // Check if the comment text is not empty
@@ -10,16 +12,24 @@ function AddComment() {
       return;
     }
 
-    // Send the comment to the server/API
-    const newComment = {
+    const myheaders = new Headers({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localData.token}`
+    });
+    const mybody = JSON.stringify({
       text: commentText,
-      user: user._id,
-      post: postId
-    };
-
-    // Call the onCommentSubmit function passed as a prop
-    onCommentSubmit(newComment);
-
+      userId: localData.user._id,
+      postId: postId
+    });
+    try {
+      fetch(`http://localhost:3000/posts/${postId}/new-comment`, {
+        method: 'POST',
+        body: mybody,
+        headers: myheaders
+      }).then((response) => {
+        return response.json();
+      });
+    } catch (err) {}
     // Clear the comment text input
     setCommentText('');
   };
@@ -27,7 +37,7 @@ function AddComment() {
   return (
     <div>
       <h4>Add a Comment</h4>
-      {user !== null ? (
+      {localData.user !== null ? (
         <form onSubmit={handleSubmit}>
           <textarea
             rows="4"
