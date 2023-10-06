@@ -34,11 +34,16 @@ const UserAuth = (props) => {
         'http://localhost:3000/users/log-in',
         formData
       );
+      console.log(response.data);
       setMessage(response.data.message);
-      localStorage.setItem('user', {
-        token: response.data.token,
-        user: response.data.user
-      });
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          token: response.data.token,
+          user: response.data.user
+        })
+      );
+      console.log(JSON.parse(localStorage.getItem('user')));
     } catch (error) {
       setMessage('Login failed. Please check your credentials.');
     }
