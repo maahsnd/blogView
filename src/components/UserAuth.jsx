@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { useUserContext } from '../UserContext';
 
-const UserAuth = () => {
+const UserAuth = (props) => {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -12,7 +11,6 @@ const UserAuth = () => {
     email: ''
   });
   const [message, setMessage] = useState('');
-  const { userState, setUserState } = useUserContext();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,14 +30,12 @@ const UserAuth = () => {
 
   const handleLogin = async () => {
     try {
-      console.log('login click');
       const response = await axios.post(
         'http://localhost:3000/users/log-in',
         formData
       );
       setMessage(response.data.message);
-      setUserState({
-        message: response.data.message,
+      localStorage.setItem('user', {
         token: response.data.token,
         user: response.data.user
       });
@@ -51,6 +47,7 @@ const UserAuth = () => {
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:3000/users/log-out');
+      localStorage.removeItem('user');
       setMessage('Logout successful.');
     } catch (error) {
       setMessage('Logout failed.');
@@ -107,6 +104,7 @@ const UserAuth = () => {
         <button onClick={handleLogout}>Logout</button>
       </div>
       {message && <p>{message}</p>}
+      <a href="/">Home</a>
     </div>
   );
 };

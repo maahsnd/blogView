@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import AddComment from './Comment';
 
-function IndividualPost() {
+function IndividualPost(props) {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
 
@@ -36,6 +37,7 @@ function IndividualPost() {
           ) : (
             <p>No comments yet!</p>
           )}
+          <AddComment />
         </div>
       ) : (
         <p>Loading...</p>

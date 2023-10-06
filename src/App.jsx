@@ -2,19 +2,28 @@ import AllPosts from './components/AllPosts';
 import IndividualPost from './components/IndividualPost';
 import UserAuth from './components/UserAuth';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
 import './App.css';
-import { UserProvider } from './UserContext';
 
 function App() {
+  const [user, setUser] = useState({});
+  const updateUser = (userData) => {
+    setUser(userData);
+  };
+
   return (
     <Router>
-      <UserProvider>
-        <Routes>
-          <Route path="/posts/:postId" element={<IndividualPost />}></Route>
-          <Route path="/user-auth" element={<UserAuth />}></Route>
-          <Route path="/" element={<AllPosts />}></Route>
-        </Routes>
-      </UserProvider>
+      <Routes>
+        <Route
+          path="/posts/:postId"
+          element={<IndividualPost user={user} />}
+        ></Route>
+        <Route
+          path="/user-auth"
+          element={<UserAuth updateUser={updateUser} />}
+        ></Route>
+        <Route path="/" element={<AllPosts />}></Route>
+      </Routes>
     </Router>
   );
 }
