@@ -42,6 +42,7 @@ function IndividualPost(props) {
       ) : (
         <p>Loading...</p>
       )}
+      <a href="/">Home</a>
     </div>
   );
 }
