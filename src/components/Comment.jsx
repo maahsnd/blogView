@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-function AddComment() {
+function AddComment(props) {
   const [commentText, setCommentText] = useState('');
   const postId = useParams().postId;
   const localData = JSON.parse(localStorage.getItem('user'));
@@ -27,9 +27,12 @@ function AddComment() {
         body: mybody,
         headers: myheaders
       }).then((response) => {
-        return response.json();
+        console.log('successfully posted');
       });
-    } catch (err) {}
+    } catch (err) {
+      return console.error(err);
+    }
+    props.updatePost();
     // Clear the comment text input
     setCommentText('');
   };

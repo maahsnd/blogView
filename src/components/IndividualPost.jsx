@@ -4,16 +4,21 @@ import AddComment from './Comment';
 
 function IndividualPost(props) {
   const [post, setPost] = useState(null);
+  const updatePost = () => {
+    fetch(`http://localhost:3000/posts/${postId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setPost(data);
+      })
+      .catch((error) => console.error('Error fetching post:', error));
+  };
   const { postId } = useParams();
 
   useEffect(() => {
     // Fetch the individual post based on its ID or some other identifier
     // You may need to modify the fetch URL to include the post ID
-    fetch(`http://localhost:3000/posts/${postId}`)
-      .then((response) => response.json())
-      .then((data) => setPost(data))
-      .catch((error) => console.error('Error fetching post:', error));
-  }, [postId]);
+    updatePost();
+  }, [postId, post]);
 
   return (
     <div>
@@ -37,7 +42,7 @@ function IndividualPost(props) {
           ) : (
             <p>No comments yet!</p>
           )}
-          <AddComment />
+          <AddComment updatePost={updatePost} />
         </div>
       ) : (
         <p>Loading...</p>
