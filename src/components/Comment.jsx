@@ -29,10 +29,10 @@ function AddComment(props) {
       }).then((response) => {
         console.log('successfully posted');
       });
+      props.toggleCommentLoading(true);
     } catch (err) {
       return console.error(err);
     }
-    props.updatePost();
     // Clear the comment text input
     setCommentText('');
   };
