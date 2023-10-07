@@ -3,13 +3,16 @@ import { useState, useEffect } from 'react';
 export default function AllPosts() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const updatePublishedPosts = (posts) => {
+    setPosts(posts.filter((post) => post.published));
+  };
 
   useEffect(() => {
     // Fetch data from the API
     fetch('http://localhost:3000/posts/')
       .then((response) => response.json())
       .then((data) => {
-        setPosts(data);
+        updatePublishedPosts(data);
         setLoading(false);
       })
       .catch((error) => {
