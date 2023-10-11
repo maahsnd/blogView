@@ -22,7 +22,7 @@ function AddComment(props) {
       postId: postId
     });
     try {
-      fetch(`http://localhost:3000/posts/${postId}/new-comment`, {
+      fetch(`http://localhost:3000/comments/new-comment`, {
         method: 'POST',
         body: mybody,
         headers: myheaders
